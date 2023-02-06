@@ -95,7 +95,7 @@ Next line, we declare a variable `totalSupply` that will hold the total number o
 
 Lets declare one more variable `balanceOf`. We will track the `amount` of `shares` every user has with this variable. Its public and of type `mapping`. Just like arrays allow us to store values that can be accessed using the index, `mapping` allows us to store `key:value` pairs where the value can be accessed using its key.([more about mapping]()).
 
-```
+```solidity
 costructor(address _token){
 token = _token;
 }
@@ -103,7 +103,7 @@ token = _token;
 
 We define a `constructor` for our contract in the above code. Constructors are special functions that run only once before the contract is deployed([more about constructors]()). In the constructor, we want to set the contract address of the token(cUSD) that we will be using. 
 
-```
+```solidity
 function _mint(address _to, uint _amount) private{
 	totalSupply += _amount;
 	balanceOf[_to] += _amount
@@ -120,7 +120,8 @@ We declare a function `_mint`, it takes in two parameters(the `address of the us
 Lets declare another function `_burn`,It is private,and does two things. Decreasing the total number of shares our company has issued out, and  updating the number of shares held by a specific address.
 
 Next lets enable our users to `buy` shares from our company.
-```
+
+```solidity
 function deposit(uint _amount) payable external{
 
 	uint shares;
@@ -145,7 +146,7 @@ Next, set the number of shares to be equal to the amount the customer has paid, 
 
 Now,let's enable our customers to `sell` their shares and get back their funds.
 
-```
+```solidity
 function withdraw(uint _shares) external{
 
 		require(balanceOf[msg.sender] >= _shares,"You dont have enough shares");
