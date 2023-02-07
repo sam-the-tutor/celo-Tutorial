@@ -35,7 +35,7 @@ celoExtensionWallet enables us to interact with our smart contract on the Celo b
 Open up your browser and load the [Remix IDE](https://remix.ethereum.org/).
 Here is what the remix looks like.
 
-[Remix IDE](./remix.png) 
+[Remix IDE](https://ibb.co/Jkhvm0x) 
 
 We will create a file called `vault.sol` where our smart contract code will be stored.
 Notice a new file extension of(`.sol`). It means our file will store Solidity code just like how a `.js` files stores Javascript code.
@@ -705,7 +705,8 @@ npm run build
 
 
 This is final look of the Dapp.
-[Remix IDE](./page.png) 
+[Remix IDE](https://ibb.co/Jkhvm0x
+https://ibb.co/NF3VyWR) 
 
 All the code for this project can be found on my [github](https://github.com/sam-the-tutor/celo-Tutorial) and here is a link to the [demo]().
 
