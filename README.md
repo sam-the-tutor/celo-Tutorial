@@ -33,10 +33,14 @@ celoExtensionWallet enables us to interact with our smart contract on the Celo b
 ### First, we will develop our smart contract. 
 
 Open up your browser and load the [Remix IDE](https://remix.ethereum.org/).
-Here is what the remix looks like, We will create a file called `vault.sol` where our smart contract code will be stored.
+Here is what the remix looks like.
+
+[Remix IDE](/remix.png) 
+
+We will create a file called `vault.sol` where our smart contract code will be stored.
 Notice a new file extension of(`.sol`). It means our file will store Solidity code just like how a `.js` files stores Javascript code.
 
-Now, we need to write code in our empty file. copy and paste this code into the file.
+Now, we need to write code in our empty file. Copy and paste this code into the file.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -280,7 +284,7 @@ mkbdnfelcpgckmpcaemjcdh?hl=en)
 4. Follow the celo development 101 course on dacade for a guide on how to deploy your smart contract.
 
 After deployment, we will need two things; the `ABI` of the contract, and the `contract address`.
-([Learn about ABIs(Application Binary Interface )]
+[more about ABIs(Application Binary Interface ]
 (https://docs.soliditylang.org/en/develop/abi-spec.html)).
 
 
@@ -368,6 +372,11 @@ Specify the document type and add some meta tags in the <head> section.
           object-fit: cover;
         }
       }
+      .sharesDiv{
+        width: 350px;
+        margin: auto;
+        background-color: rgb(107,104,120); 
+        }
     </style>
 ```
 
@@ -406,32 +415,38 @@ Add a main tag with id `vault`, this is where we shall display all the content.
 Inside the main tag, paste the following code.
 
 ```html
-<div class="sharesDiv">
+     <h4 align="center">Total Funds:  <span id="totalFunds"></span></h4>
+    <div class="sharesDiv">
 
-    <span id="totalFunds"></span>
+     
+      <div style="display: flex;margin-top: 10px; padding: 5px;" >
+        <input type="number" class="form-control" id="sharesAmount"  placeholder="Enter amount to buy">
+        <a href="#" class="btn btn-success" id="buyShares" role="submit">BUY</a>
+      </div>
 
-  <div >
-   <input type="number" class="form-control" id="sharesAmount"  placeholder="Enter amount to buy">
-  </div> 
- <a href="#" class="btn btn-primary" id="buyShares" role="submit">BUY</a>
+      
 
-  <div>
-    <input type="number" class="form-control" id="sellAmount" placeholder="enter amounbt of shares to sell">
-  </div>
-  <button class="btn btn-primary" id="sellShares">SELL</button>
+      <div style="display: flex; margin-top: 10px;padding: 5px;">
+        <input type="number" class="form-control" id="sellAmount" placeholder="enter amount of shares to sell">
+         <button class="btn btn-danger" id="sellShares">SELL</button>
+      </div>
+     
 
-  <div>
-    <a href="#" class="btn btn-primary subBtn" amount="3" role="submit" id="getShares">GET SHARES</a>
-   <span id="allShares"></span>
-  </div>
 
-</div>
+      <div style="display: flex; margin-top: 10px;padding: 5px;">
+        <a href="#" class="btn btn-success "  role="submit" id="getShares">MY SHARES</a>
+        <span id="allShares" style="margin-left: 15px;"></span>
+      </div>
+      
+
+
+    </div>
 ```
 
 We create three buttons;
 `BUY`        - Allows the user to deposit money in the smart contract and buy shares
 `SELL`       - Allows the user to sell his shares and get his funds back.
-`GET SHARES` - Allows the user to view how many company shares he holds.
+`MY SHARES` - Allows the user to view how many company shares he holds.
 
 Users are able to enter the amount of money to deposit in order to buy shares, and also to specify the amount of shares to sell.
 
@@ -559,6 +574,9 @@ document
             .depositFunds(price)
             .send({ from: kit.defaultAccount })
             notification(`You have successfully bought shares`)
+             await getAllfunds()
+             await  getBalance()
+          
 
         }catch(error){
            notification(`⚠️ ${error}.`)
@@ -569,11 +587,14 @@ document
 })
 ```
 
-When the user clicks on the `Buy Shares` button. We get the amount that he wants to deposit, then convert it to a big Number.
+When the user clicks on the `BUY` button. We get the amount that he wants to deposit, then convert it to a big Number.
 
 The user gives permission to the smart contract to spend a certain amount of funds on his behalf using the `approve` method.
 
-After the permission is granted, we call the `deposit` function that will deduct the `amount` from the user's account and in return issues a corresponding number of `shares`.
+After the permission is granted, we call the `depositFunds` function that will deduct the `amount` from the user's account and in return issues a corresponding number of `shares`.
+
+We then call two functions `getAllFunds` to display the total amount of funds stored in our smart contract, and `getBalance` to display the new token balance of the user after the transactions
+
 
 ```js
 document
@@ -589,16 +610,19 @@ document
             .withdraw(amount)
             .send({ from: kit.defaultAccount })
             notification(`You have successfully sold shares`)
+            await getAllfunds()
+            await  getBalance()
+            
 
       }catch(error){
       notification("Sale of shares failed")
   }
   notificationOff()
 })
-
 ````
 
 When the use clicks on the `SELL` button, we get the `number` of `shares` that he wants to `sell`. Using the `contract.methods`, we call the `withdraw` function on the smart contract that will `sell` his `shares` and `deposit` an equivalent amount of `cUSD` in the user's account.
+
 
 ```js
 document
@@ -620,26 +644,32 @@ document
 })
 ````
 
-Here, we get the `total number` of `shares` a user has by calling the `getMyShares` function from the smart contract.
+When the user clicks on `MY SHARES` button, we get the `total number` of `shares` a user has by calling the `getMyShares` function from the smart contract.
 We then `update` the element with id `allShares` to display the value to the user.
 
 
 ```js
-function getAllfunds(){
+
+async function getAllfunds(){
 
   try{
 
-    const shares = await contract.methods
-          .getContractBalance()
-          .call()
-      document.querySelector("#totalFunds").textContent = `Total Funds: ${shares} cUSD`
+      const balance = await contract.methods
+            .getContractBalance()
+            .call()
+
+            const _balance = BigNumber(balance)
+             .shiftedBy(-ERC20_DECIMALS)
+
+        document.querySelector("#totalFunds").textContent = `${_balance} cUSD`
             
   }catch(error){
     notification(error)
   }
+}
 ````
 
-This function returns the total amount of funds(cUSD) stored in our smart contract and displays the value to the user
+This function returns the total amount of funds(cUSD) stored in our smart contract and displays the value to the user.
 
 ```js
 function notification(_text) {
@@ -675,8 +705,9 @@ npm run build
 
 
 This is final look of the Dapp.
+[Remix IDE](/page.png) 
 
-All the code for this project can be found on my [github]() and here is a link to the [demo]().
+All the code for this project can be found on my [github](https://github.com/sam-the-tutor/celo-Tutorial) and here is a link to the [demo]().
 
 
 ## Conclusion.

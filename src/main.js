@@ -80,6 +80,9 @@ document
             .depositFunds(price)
             .send({ from: kit.defaultAccount })
             notification(`You have successfully bought shares`)
+             await getAllfunds()
+           await  getBalance()
+          
 
         }catch(error){
         	 notification(`⚠️ ${error}.`)
@@ -103,6 +106,9 @@ document
             .withdraw(amount)
             .send({ from: kit.defaultAccount })
             notification(`You have successfully sold shares`)
+            await getAllfunds()
+            await  getBalance()
+            
 
       }catch(error){
       notification("Sale of shares failed")
@@ -140,14 +146,18 @@ function notificationOff() {
 }
 
 
-function getAllfunds(){
+async function getAllfunds(){
 
   try{
 
-      const shares = await contract.methods
+      const balance = await contract.methods
             .getContractBalance()
             .call()
-        document.querySelector("#totalFunds").textContent = `Total Funds: ${shares} cUSD`
+
+            const _balance = BigNumber(balance)
+             .shiftedBy(-ERC20_DECIMALS)
+
+        document.querySelector("#totalFunds").textContent = `${_balance} cUSD`
             
   }catch(error){
     notification(error)

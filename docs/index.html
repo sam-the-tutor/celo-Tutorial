@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css"
+    />
+
+     <style>
+      :root {
+        --bs-font-sans-serif: "DM Sans", sans-serif;
+      }
+
+      @media (min-width: 576px) {
+        .card {
+          border: 0;
+          box-shadow: rgb(0 0 0 / 5%) 0px 10px 20px;
+          border-radius: 10px;
+        }
+
+        .card-img-top {
+          width: 100%;
+          height: 20vw;
+          object-fit: cover;
+        }
+      }
+
+      .sharesDiv{
+        width: 350px;
+        margin: auto;
+        background-color: rgb(107,104,120);
+
+         
+        }
+
+    </style>
+
+      <title>E-Shares</title>
+  </head>
+
+  
+   <body>
+    <div class="container mt-2" style="max-width: 72em">
+
+      <nav class="navbar bg-success navbar-light">
+        <div class="container-fluid">
+          <span class="navbar-brand m-0 h4 fw-bold">E-Shares</span>
+          <span class="nav-link border rounded-pill bg-light">
+            <span id="balance">0</span>
+            cUSD
+          </span>
+        </div>
+      </nav>
+       <div class="alert alert-warning sticky-top mt-2" role="alert">
+    <span id="notification">⌛ Loading...</span>
+  </div>
+  
+      <main id="vault" class="row" style="margin-top: 3.5%;">
+
+
+     <h4 align="center">Total Funds:  <span id="totalFunds"></span></h4>
+    <div class="sharesDiv">
+
+     
+      <div style="display: flex;margin-top: 10px; padding: 5px;" >
+        <input type="number" class="form-control" id="sharesAmount"  placeholder="Enter amount to buy">
+        <a href="#" class="btn btn-success" id="buyShares" role="submit">BUY</a>
+      </div>
+
+      
+
+      <div style="display: flex; margin-top: 10px;padding: 5px;">
+        <input type="number" class="form-control" id="sellAmount" placeholder="enter amount of shares to sell">
+         <button class="btn btn-danger" id="sellShares">SELL</button>
+      </div>
+     
+
+
+      <div style="display: flex; margin-top: 10px;padding: 5px;">
+        <a href="#" class="btn btn-success "  role="submit" id="getShares">MY SHARES</a>
+        <span id="allShares" style="margin-left: 15px;"></span>
+      </div>
+      
+
+
+    </div>
+            
+      </main>
+    </div>
+  <script type="text/javascript" src="main.js"></script></body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/ethereum-blockies@0.1.1/blockies.min.js"></script>
+  </body>
+</html>
