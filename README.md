@@ -27,7 +27,7 @@ To get the most out of this tutorial, I assume that you have:
 
 Remix IDE is an online compiler that allows us to write, run and test our smart contract code, all in the browser. No need to download any file to the computer. 
 
-celoExtensionWallet enables us to interact with our smart contract on the Celo blockchain.([more on Celo Blockchain](https://celo.org/))
+celoExtensionWallet enables us to interact with our smart contract on the Celo blockchain.([Learn more on Celo Blockchain](https://celo.org/))
 
 
 ### First, we will develop our smart contract. 
@@ -47,9 +47,9 @@ Now, we need to write code in our empty file. Copy and paste this code into the 
 
 pragma solidity >=0.7.0 <0.9.0;
 ```
-We start by defining the license type of our code. It is recommended to always define a license for the contract code as this is important to guide how the code will be used. The most common license used is `MIT`. ([more on licenses](https://docs.soliditylang.org/en/v0.8.18/layout-of-source-files.html#spdx-license-identifier))
+We start by defining the license type of our code. It is recommended to always define a license for the contract code as this is important to guide how the code will be used. The most common license used is `MIT`. ([Learn more on licenses](https://docs.soliditylang.org/en/v0.8.18/layout-of-source-files.html#spdx-license-identifier))
 
-On the next line, we specify the version to use when compiling our code using the `pragma` keyword. There are several ways how to specify the version. In our example, we are telling the compiler to use any version between `0.7.0 `and `0.9.0.` [more about compilers here](https://docs.soliditylang.org/en/v0.8.18/using-the-compiler.html).
+On the next line, we specify the version to use when compiling our code using the `pragma` keyword. There are several ways how to specify the version. In our example, we are telling the compiler to use any version between `0.7.0 `and `0.9.0.` [Learn more about compilers here](https://docs.soliditylang.org/en/v0.8.18/using-the-compiler.html).
 
 
 In real life, we need some sort of currency(dollar,EUR) to be able to buy shares in the company. So we will also need to intergrate a test currency that will be used in our smart contract to buy shares.
@@ -90,9 +90,9 @@ contract Vault {
 
 First, we declare our contract using the `contract` keyword, followed by the name of the contract. In our case, we call it `Vault`.
 
-Just like other programming languages, Solidity also has data types, and you have to specify the data type of each variable you create.  Common data types in Solidity include address, uint,bytes32,bool.[more on data types.](https://docs.soliditylang.org/en/latest/types.html).
+Just like other programming languages, Solidity also has data types, and you have to specify the data type of each variable you create.  Common data types in Solidity include address, uint,bytes32,bool.[Learn more on data types.](https://docs.soliditylang.org/en/latest/types.html).
 
-In the above code, we declare a variable `token`, of data type address(we want it to store the address of our token that we will be using). Then we specify the visibilty of our variable, in this case `public`. `Visibility` defines how the variable will be accessed. There are several types of visibilty, but here we use `public` because we want to access the variable from both from inside and outside  the contract.([more about visiblity](https://docs.soliditylang.org/en/latest/contracts.html#visibility-and-getters))
+In the above code, we declare a variable `token`, of data type address(we want it to store the address of our token that we will be using). Then we specify the visibilty of our variable, in this case `public`. `Visibility` defines how the variable will be accessed. There are several types of visibilty, but here we use `public` because we want to access the variable from both from inside and outside  the contract.([Learn more about visiblity](https://docs.soliditylang.org/en/latest/contracts.html#visibility-and-getters))
 
 All our customers will have to pay using the same token(currency) that we have specified in our contract in order to buy shares.
 
@@ -100,7 +100,7 @@ We specify another variable `DECIMALS`  to store the number of decimals the toke
 
 Next line, we declare a variable `totalSupply` that will hold the total number of shares our company has issued out. It is `public`, meaning we can get the value of this variable from outside the contract(this will be helpful when we are interacting with the contract from the frontend). It is of type `uint`. uint variables store only positive numbers as we never want our company to have negative shares.
 
-Lets declare one more variable `balanceOf`. We will track the `amount` of `shares` every user has with this variable. Its public and of type `mapping`. Just like arrays allow us to store values that can be accessed using the index, `mapping` allows us to store `key:value` pairs where the value can be accessed using its key.([more about mapping](https://docs.soliditylang.org/en/v0.8.18/types.html#mapping-types)).
+Lets declare one more variable `balanceOf`. We will track the `amount` of `shares` every user has with this variable. Its public and of type `mapping`. Just like arrays allow us to store values that can be accessed using the index, `mapping` allows us to store `key:value` pairs where the value can be accessed using its key.([Learn more about mapping](https://docs.soliditylang.org/en/v0.8.18/types.html#mapping-types)).
 
 ```solidity
 function _mint(address _to, uint _amount) private{
@@ -139,7 +139,7 @@ Lets declare another function `_burn`,It is private,and does two things. Decreas
 
 We define our `depositFunds` function, it takes in one parameter(the amount, a user has deposited). For now, we will sell `one share` for `1 cUSD`. Inside the function, we declare a variable `shares` of type `uint` to hold the number of shares.
 
-Use the `require` keyword to ensure that the customer pays for the shares before we issue them out([more about require](https://docs.soliditylang.org/en/v0.8.18/control-structures.html#error-handling-assert-require-revert-and-exceptions)).
+Use the `require` keyword to ensure that the customer pays for the shares before we issue them out([Learn more about require](https://docs.soliditylang.org/en/v0.8.18/control-structures.html#error-handling-assert-require-revert-and-exceptions)).
 
 Next, we calculate how many shares the customer will receive depending on how much they have deposited. 
 
@@ -170,14 +170,14 @@ Inside the function, we first check to see if the user has the shares he wants t
 
 Then we give out the funds corresponding to the number of shares, finally we call the `_burn` function to deduct the shares from the users account and update the total shares the company holds.
 
-In order for the user to recieve funds, their address has to be configured to recieve them. This is done using the `payable` keyword.([more on payable](https://docs.alchemy.com/docs/solidity-payable-functions))
+In order for the user to recieve funds, their address has to be configured to recieve them. This is done using the `payable` keyword.([Learn more on payable](https://docs.alchemy.com/docs/solidity-payable-functions))
 
 ```solidity
 function getMyShares() public view returns(uint){
 		return balanceOf[msg.sender];
 	}
 ```
-We define a function `getMyShares`,this will return a value of `uint` type, which is the total number of shares held by a user. Its a `view` function because it is accessing the [`state variables`](). [more on view and pure functions](https://docs.soliditylang.org/en/v0.8.18/contracts.html#functions).
+We define a function `getMyShares`,this will return a value of `uint` type, which is the total number of shares held by a user. Its a `view` function because it is accessing the [`state variables`](). [Learn more on view and pure functions](https://docs.soliditylang.org/en/v0.8.18/contracts.html#functions).
 
 ```solidity
 function getContractBalance() public view returns(uint) {
@@ -274,8 +274,7 @@ function withdraw(uint _shares) external{
 
 Time to deploy our contract and test it out.
 
-1. Install the [celoExtensionWallet]((https://chrome.google.com/webstore/detail/celoextensionwallet/kkilomkmp
-mkbdnfelcpgckmpcaemjcdh?hl=en)
+1. Install the [celoExtensionWallet](https://chrome.google.com/webstore/detail/celoextensionwallet/kkilomkmpmkbdnfelcpgckmpcaemjcdh?hl=en)
 
 2. Grab some testnet tokens from the [Celo Faucet](https://celo.org/developers/faucet)
 
@@ -284,8 +283,7 @@ mkbdnfelcpgckmpcaemjcdh?hl=en)
 4. Follow the celo development 101 course on dacade for a guide on how to deploy your smart contract.
 
 After deployment, we will need two things; the `ABI` of the contract, and the `contract address`.
-[more about ABIs(Application Binary Interface)]
-(https://docs.soliditylang.org/en/develop/abi-spec.html).
+[Learn more about ABIs](https://docs.soliditylang.org/en/develop/abi-spec.html).
 
 
 
@@ -380,7 +378,7 @@ Specify the document type and add some meta tags in the <head> section.
     </style>
 ```
 
-We import some bootstrap files, google fonts for our html. Bootstrap re-usable components help you to build responsive websites from scratch.([Learn more about bootstrap]()).
+We import some bootstrap files, google fonts for our html. Bootstrap re-usable components help you to build responsive websites from scratch. [Learn more about bootstrap](https://getbootstrap.com/).
 
 ```html
    <title>E-Shares</title>
@@ -553,7 +551,7 @@ async function approve(_price) {
       }
 ````
 
-Next, we define our `approve` function. This function allows the user to set an amount, the smart contract is able to spend on the user's behalf. Before the smart contract can transfer funds from the user's account to itself, it has to first get permission from the user on how much it can transfer.[more on approve methods](https://ethereum.org/el/developers/tutorials/transfers-and-approval-of-erc-20-tokens-from-a-solidity-smart-contract/).
+Next, we define our `approve` function. This function allows the user to set an amount, the smart contract is able to spend on the user's behalf. Before the smart contract can transfer funds from the user's account to itself, it has to first get permission from the user on how much it can transfer.[Learn more on approve methods](https://ethereum.org/el/developers/tutorials/transfers-and-approval-of-erc-20-tokens-from-a-solidity-smart-contract/).
 
 ```js
 document
@@ -705,7 +703,7 @@ npm run build
 
 
 This is final look of the Dapp.
-![Dap](https://github.com/sam-the-tutor/celo-Tutorial/blob/main/page.png) 
+![Dapp](https://github.com/sam-the-tutor/celo-Tutorial/blob/main/page.png) 
 
 All the code for this project can be found on my [github](https://github.com/sam-the-tutor/celo-Tutorial) and here is a link to the [demo](https://sam-the-tutor.github.io/celo-Tutorial).
 
