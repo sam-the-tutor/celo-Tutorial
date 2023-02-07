@@ -285,7 +285,7 @@ mkbdnfelcpgckmpcaemjcdh?hl=en)
 
 After deployment, we will need two things; the `ABI` of the contract, and the `contract address`.
 [more about ABIs(Application Binary Interface ]
-(https://docs.soliditylang.org/en/develop/abi-spec.html)).
+(https://docs.soliditylang.org/en/develop/abi-spec.html).
 
 
 
