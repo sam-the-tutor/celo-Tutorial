@@ -19,10 +19,10 @@ To get the most out of this tutorial, I assume that you have:
 
 
 ## Requirements. 
-* Nodejs installed on your machine.
-* An IDE such as Vscode or Sublime text.
-* Remix IDE.
-* CeloExtensionWallet
+* [Nodejs](https://nodejs.org/en/) installed on your machine.
+* An IDE such as [VS Code](https://code.visualstudio.com/) or [Sublime Text](https://www.sublimetext.com/).
+* [Remix IDE](https://remix.ethereum.org/).
+* [CeloExtensionWallet](https://docs.celo.org/wallet#celoextensionwallet)
 * terminal or command line.
 
 Remix IDE is an online compiler that allows us to write, run and test our smart contract code, all in the browser. No need to download any file to the computer. 
@@ -280,7 +280,7 @@ Time to deploy our contract and test it out.
 
 3. Install the Celo Remix Plugin.
 
-4. Follow the Celo development 101 course on dacade for a guide on how to deploy your smart contract.
+4. Follow the [Celo Development 101](https://dacade.org/communities/celo/courses/celo-development-101) course on [Dacade](https://dacade.org) for a guide on how to deploy your smart contract.
 
 After deployment, we will need two things; the `ABI` of the contract, and the `contract address`.
 [Learn more about ABIs](https://docs.soliditylang.org/en/develop/abi-spec.html).
