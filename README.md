@@ -25,7 +25,7 @@ To get the most out of this tutorial, I assume that you have:
 * CeloExtensionWallet
 * terminal or command line.
 
-Remix IDE is an online compiler that allows us to write, run and test our smart contract code, all in the browser. No need to download any file to the computer. 
+Remix IDE is an online compiler that allows us to write, run and test our smart contract code, all in the browser. No need to download any file to the computer.. 
 
 celoExtensionWallet enables us to interact with our smart contract on the Celo blockchain.([Learn more on Celo Blockchain](https://celo.org/))
 
