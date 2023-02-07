@@ -1,6 +1,6 @@
 # Make a Vault contract for beginners.
 
-Have you ever wondered how people in real life are able to buy shares from a company they are interested in! Well, in this tutorial, we are going to create a vault smart contract Dapp on the celo blockchain that will enable users to buy and sell shares in our company. Wondering what a decentralized application is! Here is a brief explanation. Without wasting time, lets begin.
+Have you ever wondered how people in real life are able to buy shares from a company they are interested in! Well, in this tutorial, we are going to create a vault smart contract Dapp on the celo blockchain that will enable users to buy and sell shares in our company.Without wasting time, lets begin.
 
 
 ## What you will learn in this tutorial.
@@ -19,23 +19,22 @@ To get the most out of this tutorial, I assume that you have:
 
 
 ## Requirements. 
-
 * Nodejs installed on your machine.
 * An IDE such as Vscode or Sublime text.
 * Remix IDE.
 * CeloExtensionWallet
 * terminal or command line.
 
-Remix IDE is an online compiler that allows us to write, run and test our smart contract code, all in the browser. No need for downloading any file to the computer. 
+Remix IDE is an online compiler that allows us to write, run and test our smart contract code, all in the browser. No need to download any file to the computer. 
 
-celoExtensionWallet enables us to interact with our smart contract on the Celo blockchain.([more on Celo Blockchain]())
+celoExtensionWallet enables us to interact with our smart contract on the Celo blockchain.([more on Celo Blockchain](https://celo.org/))
 
 
 ### First, we will develop our smart contract. 
 
-Open up your browser and load the [Remix IDE]().
+Open up your browser and load the [Remix IDE](https://remix.ethereum.org/).
 Here is what the remix looks like, We will create a file called `vault.sol` where our smart contract code will be stored.
-Notice a new file extension(`.sol`). It means our file will store Solidity code just like how a .js files stores Javascript code.
+Notice a new file extension of(`.sol`). It means our file will store Solidity code just like how a `.js` files stores Javascript code.
 
 Now, we need to write code in our empty file. copy and paste this code into the file.
 
@@ -44,9 +43,9 @@ Now, we need to write code in our empty file. copy and paste this code into the 
 
 pragma solidity >=0.7.0 <0.9.0;
 ```
-We start by defining the license type of our code. It is remommended to always define a license for the contract code as this is important to guide how the code will be used. The most common license used is `MIT`. 
+We start by defining the license type of our code. It is recommended to always define a license for the contract code as this is important to guide how the code will be used. The most common license used is `MIT`. ([more on licenses](https://docs.soliditylang.org/en/v0.8.18/layout-of-source-files.html#spdx-license-identifier))
 
-On the next line, we specify the version to use when compiling our code using the `pragma` keyword. There are several ways how to specify the version. In our example, we are telling the compiler to use any version between 0.7.0 and 0.9.0. you can read more about compilers [here]().
+On the next line, we specify the version to use when compiling our code using the `pragma` keyword. There are several ways how to specify the version. In our example, we are telling the compiler to use any version between `0.7.0 `and `0.9.0.` [more about compilers here](https://docs.soliditylang.org/en/v0.8.18/using-the-compiler.html).
 
 
 In real life, we need some sort of currency(dollar,EUR) to be able to buy shares in the company. So we will also need to intergrate a test currency that will be used in our smart contract to buy shares.
@@ -66,7 +65,7 @@ interface IERC20Token {
 }
 ```
 We dont need to build our own currency token as there are already prebuilt tokens that we can just use in this example. We will use cUSD(celo dollar) that follows the ERC20 token standard. We specify how we are going to interact with the token through the above `interface` code.
-Learn more about [tokens](), [interfaces]() and the token [standards]().
+Learn more about [tokens](https://worldcoin.org/articles/what-are-crypto-tokens#:~:text=Crypto%20tokens%20are%20digital%20currencies,a%20particular%20utility%20or%20service.), [interfaces](https://docs.soliditylang.org/en/v0.8.18/contracts.html#interfaces) and [token standards](https://ethereum.org/en/developers/docs/standards/tokens/#:~:text=Here%20are%20some%20of%20the,for%20artwork%20or%20a%20song.).
 
 Time to move on.
 Lets start writing code for our smart contract.
@@ -74,9 +73,11 @@ Lets start writing code for our smart contract.
 ```solidity
 contract Vault {
 
-    address public immutable token;
+     address public token = 0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
 
     uint public totalSupply;
+
+    uint internal DECIMALS = 10**18;
 
     mapping(address => uint) public balanceOf;
 
@@ -85,23 +86,17 @@ contract Vault {
 
 First, we declare our contract using the `contract` keyword, followed by the name of the contract. In our case, we call it `Vault`.
 
-Just like other programming languages, Solidity also has data types, and you have to specify the data type of each variable you create.  Common data types in Solidity include address, uint,bytes32,bool. ([Learn more about data types here](https://docs.soliditylang.org/en/latest/types.html).
+Just like other programming languages, Solidity also has data types, and you have to specify the data type of each variable you create.  Common data types in Solidity include address, uint,bytes32,bool.[more on data types.](https://docs.soliditylang.org/en/latest/types.html).
 
-In the above code, we declare a variable `token`, of data type address(we want it to store the address of our token that we will be using). Then we specify the visibilty of our variable, in this case `public`. `Visibility` defines how the variable will be accessed. There are several types of visibilty, but here we use `public` because we want to access the variable from both from inside and outside  the contract.([Learn more about visiblity](https://docs.soliditylang.org/en/latest/contracts.html#visibility-and-getters))
+In the above code, we declare a variable `token`, of data type address(we want it to store the address of our token that we will be using). Then we specify the visibilty of our variable, in this case `public`. `Visibility` defines how the variable will be accessed. There are several types of visibilty, but here we use `public` because we want to access the variable from both from inside and outside  the contract.([more about visiblity](https://docs.soliditylang.org/en/latest/contracts.html#visibility-and-getters))
 
- `immutable` keyword. When you declare a variable with this type, the value of that variable can't be altered, and it is exactly what we want. We want to make sure that all the customers pay using the same currency in order to buy the shares from our company.Not some one cheating the system to pay with fake money. 
+All our customers will have to pay using the same token(currency) that we have specified in our contract in order to buy shares.
+
+We specify another variable `DECIMALS`  to store the number of decimals the token uses, in our case `18`. This will be used when we are trying to calculate the number of shares using the amount the user has deposited and vice versa.
 
 Next line, we declare a variable `totalSupply` that will hold the total number of shares our company has issued out. It is `public`, meaning we can get the value of this variable from outside the contract(this will be helpful when we are interacting with the contract from the frontend). It is of type `uint`. uint variables store only positive numbers as we never want our company to have negative shares.
 
-Lets declare one more variable `balanceOf`. We will track the `amount` of `shares` every user has with this variable. Its public and of type `mapping`. Just like arrays allow us to store values that can be accessed using the index, `mapping` allows us to store `key:value` pairs where the value can be accessed using its key.([more about mapping]()).
-
-```solidity
-costructor(address _token){
-token = _token;
-}
-```
-
-We define a `constructor` for our contract in the above code. Constructors are special functions that run only once before the contract is deployed([more about constructors]()). In the constructor, we want to set the contract address of the token(cUSD) that we will be using. 
+Lets declare one more variable `balanceOf`. We will track the `amount` of `shares` every user has with this variable. Its public and of type `mapping`. Just like arrays allow us to store values that can be accessed using the index, `mapping` allows us to store `key:value` pairs where the value can be accessed using its key.([more about mapping](https://docs.soliditylang.org/en/v0.8.18/types.html#mapping-types)).
 
 ```solidity
 function _mint(address _to, uint _amount) private{
@@ -109,69 +104,84 @@ function _mint(address _to, uint _amount) private{
 	balanceOf[_to] += _amount
 }
 
-
 function _burn(address _from , uint _amount) private{
 	totalSupply -= _amount;
 	balanceOf[_from] -= _amount;
 }
 ```
-We declare a function `_mint`, it takes in two parameters(the `address of the user` to receive the shares, and the `amount of shares` to give out). It is `private`, as we only want to access them only inside our smart contract. Inside the `_mint` function, two things take place. One is increasing the total number of shares our company has issued out, and updating the number of shares held by a specific user address.
+We declare a function `_mint`, it takes in two parameters(the `address of the user` to receive the shares, and the `amount of shares` to give out). It is `private`, as we only want to access it inside our smart contract. 
 
-Lets declare another function `_burn`,It is private,and does two things. Decreasing the total number of shares our company has issued out, and  updating the number of shares held by a specific address.
+Inside the `_mint` function, two things take place. One is increasing the total number of shares our company has issued out, and updating the number of shares held by a specific user address.
 
-Next lets enable our users to `buy` shares from our company.
+Lets declare another function `_burn`,It is private,and does two things. Decreasing the total number of shares our company has issued out,and updating the number of shares held by a specific address.
+
+### Function to buy shares from the company.
 
 ```solidity
-function deposit(uint _amount) payable external{
+ function depositFunds(uint _amount)  external{
+    uint shares;
+    require(IERC20Token(token).transferFrom(
+        msg.sender,
+        address(this),
+        _amount 
+        ),"Transfer failed"
+    );
 
-	uint shares;
+    shares =(_amount / DECIMALS);
 
-	require(token.transferFrom(
-		msg.sender,
-		address(this),
-		_amount
-		),"Transfer failed"
-	);
-	shares =_amount;
-
-	_mint(msg.sender,shares);
-}
+    _mint(msg.sender,shares);
+   }
 ```
 
-We define our deposit function, it takes in one parameter(the amount, a user has deposited). For now, we will sell `one share` for `1 cUSD`,meaning the customer gets a number of shares equivalent to the amount he deposits. Inside the function, we declare a variable `shares` of type `uint` to hold the number of shares.
+We define our `depositFunds` function, it takes in one parameter(the amount, a user has deposited). For now, we will sell `one share` for `1 cUSD`. Inside the function, we declare a variable `shares` of type `uint` to hold the number of shares.
 
-Use the `require` keyword to ensure that the customer pays for the shares before we issue them out([learn more about require]()).
+Use the `require` keyword to ensure that the customer pays for the shares before we issue them out([more about require](https://docs.soliditylang.org/en/v0.8.18/control-structures.html#error-handling-assert-require-revert-and-exceptions)).
 
-Next, set the number of shares to be equal to the amount the customer has paid, and call the `_mint function` to issue out shares to our customer.
+Next, we calculate how many shares the customer will receive depending on how much they have deposited. 
 
-Now,let's enable our customers to `sell` their shares and get back their funds.
+>Notice: To get the shares, we are dividing the amount the user has deposited by the number of decimals of the token. (This is because we get the parameter as a big number with 18 decimals) 
+Then, call the `_mint function` to issue out shares to our customer.
+
+
+### Function to sell their company shares.
 
 ```solidity
 function withdraw(uint _shares) external{
 
-		require(balanceOf[msg.sender] >= _shares,"You dont have enough shares");
+        require(balanceOf[msg.sender] >= _shares,"You dont have enough shares");
 
-		uint _amount = _shares;
-		require(IERC20Token(token).transfer(
-			payable(msg.sender),
-			_amount
-			),"Transfer failed"
-		);
+        require(IERC20Token(token).transfer(
+            payable(msg.sender),
+            (_shares * DECIMALS)
+            ),"Transfer failed"
+        );
 
-	   _burn(msg.sender, _shares);
+       _burn(msg.sender, _shares);
 
-	}
+    }
+
 ```
 
-Inside the function, we check to see if the user has the shares he wants to sell.
+Inside the function, we first check to see if the user has the shares he wants to sell.
+
 Then we give out the funds corresponding to the number of shares, finally we call the `_burn` function to deduct the shares from the users account and update the total shares the company holds.
+
+In order for the user to recieve funds, their address has to be configured to recieve them. This is done using the `payable` keyword.([more on payable](https://docs.alchemy.com/docs/solidity-payable-functions))
 
 ```solidity
 function getMyShares() public view returns(uint){
 		return balanceOf[msg.sender];
 	}
 ```
-We define a function `getMyShares`,this will return a value of `uint` type, which is the total number of shares held by a user. Its a `view` function because it is accessing the `state variables`. [more on view and pure functions]().
+We define a function `getMyShares`,this will return a value of `uint` type, which is the total number of shares held by a user. Its a `view` function because it is accessing the [`state variables`](). [more on view and pure functions](https://docs.soliditylang.org/en/v0.8.18/contracts.html#functions).
+
+```solidity
+function getContractBalance() public view returns(uint) {
+        return IERC20Token(token).balanceOf(address(this));
+    }
+```
+
+Our last function `getContractbalance` returns the total funds the contract currently holds.
 
 
 This completes our smart contract code. Here is how the complete code should look like.
@@ -195,16 +205,13 @@ interface IERC20Token {
 
 contract Vault {
 
-    address public immutable token;
+    address public token = 0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
 
     uint public totalSupply;
 
+    uint internal DECIMALS = 10**18;
+
     mapping(address => uint) public balanceOf;
-
-
-    costructor(address _token){
-		token = _token;
-	}
 
 
 	function _mint(address _to, uint _amount) private{
@@ -219,43 +226,43 @@ contract Vault {
 	}
 
 
+ function depositFunds(uint _amount)  external{
+    uint shares;
+    require(IERC20Token(token).transferFrom(
+        msg.sender,
+        address(this),
+        _amount 
+        ),"Transfer failed"
+    );
 
-	function deposit(uint _amount) payable external{
+    shares =(_amount / DECIMALS);
 
-	uint shares;
-
-	require(token.transferFrom(
-		msg.sender,
-		address(this),
-		_amount
-		),"Transfer failed"
-	);
-
-	shares =_amount;
-
-	_mint(msg.sender,shares);
+    _mint(msg.sender,shares);
    }
 
 
+function withdraw(uint _shares) external{
 
-	function withdraw(uint _shares) external{
+        require(balanceOf[msg.sender] >= _shares,"You dont have enough shares");
 
-		require(balanceOf[msg.sender] >= _shares,"You dont have enough shares");
-    uint _amount = _shares;
+        require(IERC20Token(token).transfer(
+            payable(msg.sender),
+            (_shares * DECIMALS)
+            ),"Transfer failed"
+        );
 
-		require(IERC20Token(token).transfer(
-			payable(msg.sender),
-			_amount
-			),"Transfer failed"
-		);
+       _burn(msg.sender, _shares);
 
-	   _burn(msg.sender, _shares);
+    }
 
-	}
 
 	function getMyShares() public view returns(uint){
 		return balanceOf[msg.sender];
 	}
+
+  function getContractBalance() public view returns(uint) {
+        return IERC20Token(token).balanceOf(address(this));
+    }
 
 }
 ```
@@ -272,47 +279,43 @@ mkbdnfelcpgckmpcaemjcdh?hl=en)
 
 4. Follow the celo development 101 course on dacade for a guide on how to deploy your smart contract.
 
-After deployment, we will need two things; the `Abi` of the contract, and the `contract address`.
-To understand more about Abis, [check out this article]().
+After deployment, we will need two things; the `ABI` of the contract, and the `contract address`.
+([Learn about ABIs(Application Binary Interface )]
+(https://docs.soliditylang.org/en/develop/abi-spec.html)).
 
 
 
 # Front End Development.
 
-We will design a simple interface to interact with the smart contract that we have deployed.
+We will design a simple webpage to interact with the smart contract that we have deployed.
 
 We will use a boilerplate for our project.
 
 - clone the boilerplate
 
+```js
+git clone https://github.com/sam-the-tutor/celo-Tutorial-boilerplate.git
 ```
-git clone https://github.com/sam-the-tutor/celo-boilerplate-vault-dapp
-```
-
 - navigate to the boilerplate.
-```
+```js
 cd celo-boilerplate-vault-dapp
 ```
 
 - install the necessary dependencies.
-```
+```js
 npm install
 ```
 
-- start up a development server on your machine.
-```
+- start up a local development server on your machine.
+```js
 npm run dev
 ```
 
 Our project folder contains three folders `contract`,`public` and `src.`
-Inside the contract folder, we will have three files
-`vault.sol`       - This will hold our contract code.
-`vault.abi.json`  - This will hold the ABI bytecode for our contract
-`erc20.abi.json`  - This will hold the ABI bytecode for the ERC20 interface we are using for our token.
-([Learn about ABIs(Application Binary Interface )]
-(https://docs.soliditylang.org/en/develop/abi-spec.html))
-
-
+Inside the contract folder, we  have three files
+`vault.sol`       - This holds our contract code.
+`vault.abi.json`  - This holds the ABI bytecode for our contract
+`erc20.abi.json`  - This holds the ABI bytecode for the ERC20 interface we are using for our token.
 
  Open the project in your favorite code editor, and lets write some code.
 
@@ -328,6 +331,7 @@ In the `public` folder, open the `index.html` file and paste the following code
 ```
 
 Specify the document type and add some meta tags in the <head> section.
+
 ```html
 <!-- CSS -->
     <link
@@ -402,13 +406,34 @@ Add a main tag with id `vault`, this is where we shall display all the content.
 Inside the main tag, paste the following code.
 
 ```html
+<div class="sharesDiv">
 
+    <span id="totalFunds"></span>
+
+  <div >
+   <input type="number" class="form-control" id="sharesAmount"  placeholder="Enter amount to buy">
+  </div> 
+ <a href="#" class="btn btn-primary" id="buyShares" role="submit">BUY</a>
+
+  <div>
+    <input type="number" class="form-control" id="sellAmount" placeholder="enter amounbt of shares to sell">
+  </div>
+  <button class="btn btn-primary" id="sellShares">SELL</button>
+
+  <div>
+    <a href="#" class="btn btn-primary subBtn" amount="3" role="submit" id="getShares">GET SHARES</a>
+   <span id="allShares"></span>
+  </div>
+
+</div>
 ```
 
+We create three buttons;
+`BUY`        - Allows the user to deposit money in the smart contract and buy shares
+`SELL`       - Allows the user to sell his shares and get his funds back.
+`GET SHARES` - Allows the user to view how many company shares he holds.
 
-
-
-
+Users are able to enter the amount of money to deposit in order to buy shares, and also to specify the amount of shares to sell.
 
 
 Now open the `main.js` file in the `src` folder and paste in the following code.
@@ -424,12 +449,6 @@ import erc20Abi from "../contract/erc20.abi.json"
 We import the `Web3`,`newKitFromWeb3`, `BigNumber`,`vaultAbi`, `erc20Abi`from their respective libraries
 
 ```js
-let kit
-let contract
-````
-We define our variables that will store the kit and contract instances that we will create after.
-
-```js
 const ERC20_DECIMALS = 18
 
 const vaultContactAddress = "0x9F6654619Fac3Ca99898990a31C3A4bc9B3795C0"
@@ -439,6 +458,14 @@ const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
 We declare a varibale `ERC20_DECIMALS` and assign 18 as its value. Most ERC20 tokens and interfaces use 18 decimals by default.
 Next, we declare a variable `vaultContractAddress` to store the address of our contract which we deployed. Replace it with the address of your deployed contract.
 The variable `cUSDContractAddress` stores the address of the token(cUSD) that we will be using on our Dapp.
+
+```js
+let kit
+let contract
+let accounts
+````
+We define our variables that will store the kit and contract instances that we will create after.
+
 
 To connect to the celo extension wallet, add the following code to our `main.js` file.
 
@@ -493,6 +520,7 @@ window.addEventListener('load', async () => {
   notification("⌛ Loading...")
   await connectCeloWallet()
   await getBalance()
+  await getAllfunds()
   notificationOff()
 });
 ````
@@ -510,46 +538,42 @@ async function approve(_price) {
       }
 ````
 
-Next, we define our `approve` function. This 
+Next, we define our `approve` function. This function allows the user to set an amount, the smart contract is able to spend on the user's behalf. Before the smart contract can transfer funds from the user's account to itself, it has to first get permission from the user on how much it can transfer.[more on approve methods](https://ethereum.org/el/developers/tutorials/transfers-and-approval-of-erc-20-tokens-from-a-solidity-smart-contract/).
 
 ```js
 document
 .querySelector("#buyShares")
 .addEventListener("click", async (e) => {
   notification("Waiting for approval to buy shares")
-  const amount = document.getElementById("sharesAmount").value
-  const price = new BigNumber(amount)
+
+  const price = new BigNumber(document.getElementById("sharesAmount").value)
                     .shiftedBy(ERC20_DECIMALS)
                     .toString()
+
         try{
 
           await approve(price)
+          notification(`Awaiting payment to buy shares`)
 
-        }catch(e){
+          const result = await contract.methods
+            .depositFunds(price)
+            .send({ from: kit.defaultAccount })
+            notification(`You have successfully bought shares`)
+
+        }catch(error){
            notification(`⚠️ ${error}.`)
 
         }
-           notification(`⌛ Awaiting payment for "${amount}" cUSD`)
-
-      try{
-
-        const result = await contract.methods
-            .deposit(amount)
-            .send({ from: kit.defaultAccount })
-            notification(`You have successfully bought ${amount} shares`)
-
-      }catch(error){
-      notification("Purchase of shares failed.")
-  }
+    
   notificationOff()
 })
 ```
 
 When the user clicks on the `Buy Shares` button. We get the amount that he wants to deposit, then convert it to a big Number.
 
-The user gives permission to the smart contract to spend the fund on his behalf using the `approve` method.
+The user gives permission to the smart contract to spend a certain amount of funds on his behalf using the `approve` method.
 
-After the permission is granted, we call the `deposit` function that will deduct the `amount` from the user's account and in return issues an equivalent number of `shares`.
+After the permission is granted, we call the `deposit` function that will deduct the `amount` from the user's account and in return issues a corresponding number of `shares`.
 
 ```js
 document
@@ -557,20 +581,21 @@ document
 .addEventListener("click", async (e) => {
   notification("Selling your shares.")
 
-  const amount = document.getElementById("sharesAmount").value
+  const amount = document.getElementById("sellAmount").value
 
       try{
 
         const result = await contract.methods
             .withdraw(amount)
             .send({ from: kit.defaultAccount })
-            notification(`You have successfully sold ${amount} shares`)
+            notification(`You have successfully sold shares`)
 
       }catch(error){
       notification("Sale of shares failed")
   }
   notificationOff()
 })
+
 ````
 
 When the use clicks on the `SELL` button, we get the `number` of `shares` that he wants to `sell`. Using the `contract.methods`, we call the `withdraw` function on the smart contract that will `sell` his `shares` and `deposit` an equivalent amount of `cUSD` in the user's account.
@@ -585,8 +610,8 @@ document
 
         const shares = await contract.methods
             .getMyShares()
-            .send({ from: kit.defaultAccount })
-        document.querySelector("#sharesId").textContent = shares
+            .call()
+        document.querySelector("#allShares").textContent = shares
             
       }catch(error){
       notification("Sale of shares failed")
@@ -596,7 +621,37 @@ document
 ````
 
 Here, we get the `total number` of `shares` a user has by calling the `getMyShares` function from the smart contract.
-We then `update` the element with id `sharesId` to display the value to the user
+We then `update` the element with id `allShares` to display the value to the user.
+
+
+```js
+function getAllfunds(){
+
+  try{
+
+    const shares = await contract.methods
+          .getContractBalance()
+          .call()
+      document.querySelector("#totalFunds").textContent = `Total Funds: ${shares} cUSD`
+            
+  }catch(error){
+    notification(error)
+  }
+````
+
+This function returns the total amount of funds(cUSD) stored in our smart contract and displays the value to the user
+
+```js
+function notification(_text) {
+  document.querySelector(".alert").style.display = "block"
+  document.querySelector("#notification").textContent = _text
+}
+
+function notificationOff() {
+  document.querySelector(".alert").style.display = "none"
+}
+````
+We define some functions to display notifications to the user on what's taking place.
 
 Thats pretty much all the code we need for our `main.js`.
 
@@ -608,7 +663,6 @@ Thats pretty much all the code we need for our `main.js`.
 - Build the project
 ```js
 npm run build
-
  ```
  - Upload your project to github
 
@@ -625,15 +679,11 @@ This is final look of the Dapp.
 All the code for this project can be found on my [github]() and here is a link to the [demo]().
 
 
-
 ## Conclusion.
 Congratulations!!!!, you now have a fully functional Dapp on the Celo blockchain.
 Feel free to play around with the code and add some functionality to the Dapp.
-
+See you soon!!!!!!
 
 
 ## Author
-Samuel Atwebembeire is a back-end and smart-contract developer. I am very passionate about Web3 and AI. Lets connect on [twitter](https://twitter.com/samthetutor2)# celo-Tutorial
-# celo-Tutorial
-# celo-Tutorial
-# celo-Tutorial
+Samuel Atwebembeire is a back-end, and smart-contract developer.I also do Technical writing. I am very passionate about Web3 and AI. Lets connect on [twitter](https://twitter.com/samthetutor2)

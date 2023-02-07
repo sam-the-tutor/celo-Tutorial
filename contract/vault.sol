@@ -16,57 +16,45 @@ interface IERC20Token {
 
 contract Vault {
 
-    address public immutable token;
+    address internal token = 0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
 
     uint public totalSupply;
+    
+    uint internal DECIMALS = 10**18;
 
     mapping(address => uint) public balanceOf;
-
-
-    constructor(address _token){
-        token = _token;
-    }
-
 
     function _mint(address _to, uint _amount) private{
         totalSupply += _amount;
         balanceOf[_to] += _amount;
     }
 
-
     function _burn(address _from , uint _amount) private{
         totalSupply -= _amount;
         balanceOf[_from] -= _amount;
     }
 
-
-
-    function deposit(uint _amount) payable external{
-
+    function depositFunds(uint _amount)  external{
     uint shares;
-
     require(IERC20Token(token).transferFrom(
         msg.sender,
         address(this),
-        _amount
+        _amount 
         ),"Transfer failed"
     );
 
-    shares =_amount;
+    shares =(_amount / DECIMALS);
 
     _mint(msg.sender,shares);
    }
-
-
 
     function withdraw(uint _shares) external{
 
         require(balanceOf[msg.sender] >= _shares,"You dont have enough shares");
 
-        uint _amount = _shares;
         require(IERC20Token(token).transfer(
             payable(msg.sender),
-            _amount
+            (_shares * DECIMALS)
             ),"Transfer failed"
         );
 
@@ -77,5 +65,11 @@ contract Vault {
     function getMyShares() public view returns(uint){
         return balanceOf[msg.sender];
     }
+
+    function getContractBalance() public view returns(uint) {
+        return IERC20Token(token).balanceOf(address(this));
+    }//get the totak token balance of the smart contract
+    
+
 
 }

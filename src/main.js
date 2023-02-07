@@ -6,13 +6,12 @@ import erc20Abi from "../contract/erc20.abi.json"
 
 const ERC20_DECIMALS = 18
 
-const vaultContactAddress = "0x0e84848c82de0092D52E2147EF6a462aEF033f8a"
+const vaultContactAddress = "0x6D9518e651F904C2286412A8AE220bb88E0a33e2"
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
 
 let kit
 let contract
-
-
+let accounts
 
 const connectCeloWallet = async function () {
   if (window.celo) {
@@ -37,8 +36,6 @@ const connectCeloWallet = async function () {
 }
 
 
-
-//get balance form the smart contract
 const getBalance = async function () {
   const totalBalance = await kit.getTotalBalance(kit.defaultAccount)
   const cUSDBalance = totalBalance.cUSD.shiftedBy(-ERC20_DECIMALS).toFixed(2)
@@ -46,21 +43,15 @@ const getBalance = async function () {
 }
 
 
-
-//when the window loads for the first time
 window.addEventListener('load', async () => {
   notification("⌛ Loading...")
   await connectCeloWallet()
   await getBalance()
+  await getAllfunds()
   notificationOff()
 });
 
 
-
-
-
-
-//approve the address to spend the specified amount
 async function approve(_price) {
         const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
 
@@ -71,79 +62,47 @@ async function approve(_price) {
       }
 
 
-
-//get number of shares the user has
-document
-.querySelector("#getShares")
-.addEventListener("click", async (e) => {
-	notification("Getting number of shares you own..")
-
-      try{
-
-        const result = await contract.methods
-            .getMyShares()
-            .send({ from: kit.defaultAccount })
-            notification("Your address has been whitelisted successfully.")
-
-
-      }catch(error){
-      notification("Your Address is already whitelisted.")
-  }
-  notificationOff()
-})
-
-
-// //buying shares in the company
-
 document
 .querySelector("#buyShares")
 .addEventListener("click", async (e) => {
 	notification("Waiting for approval to buy shares")
-	const amount = document.getElementById("sharesAmount").value
-	const price = new BigNumber(amount)
+
+	const price = new BigNumber(document.getElementById("sharesAmount").value)
                     .shiftedBy(ERC20_DECIMALS)
                     .toString()
 
         try{
 
         	await approve(price)
+          notification(`Awaiting payment to buy shares`)
 
-        }catch(e){
+          const result = await contract.methods
+            .depositFunds(price)
+            .send({ from: kit.defaultAccount })
+            notification(`You have successfully bought shares`)
+
+        }catch(error){
         	 notification(`⚠️ ${error}.`)
 
         }
-           notification(`⌛ Awaiting payment for "${amount}" cUSD`)
-
-      try{
-
-        const result = await contract.methods
-            .deposit(amount)
-            .send({ from: kit.defaultAccount })
-            notification(`You have successfully bought ${amount} shares`)
-
-      }catch(error){
-      notification("Purchase of shares failed.")
-  }
+    
   notificationOff()
 })
 
-
-
-//selling shares in the company
 
 document
 .querySelector("#sellShares")
 .addEventListener("click", async (e) => {
 	notification("Selling your shares.")
 
-	const amount = document.getElementById("sharesAmount").value
+	const amount = document.getElementById("sellAmount").value
 
       try{
 
         const result = await contract.methods
             .withdraw(amount)
             .send({ from: kit.defaultAccount })
-            notification(`You have successfully sold ${amount} shares`)
+            notification(`You have successfully sold shares`)
 
       }catch(error){
       notification("Sale of shares failed")
@@ -152,8 +111,6 @@ document
 })
 
 
-
-//get the total number of shares one has in the company
 document
 .querySelector("#getShares")
 .addEventListener("click", async (e) => {
@@ -163,11 +120,41 @@ document
 
         const shares = await contract.methods
             .getMyShares()
-            .send({ from: kit.defaultAccount })
-        document.querySelector("#sharesId").textContent = shares
+            .call()
+        document.querySelector("#allShares").textContent = shares
             
       }catch(error){
       notification("Sale of shares failed")
   }
   notificationOff()
 })
+
+
+function notification(_text) {
+  document.querySelector(".alert").style.display = "block"
+  document.querySelector("#notification").textContent = _text
+}
+
+function notificationOff() {
+  document.querySelector(".alert").style.display = "none"
+}
+
+
+function getAllfunds(){
+
+  try{
+
+      const shares = await contract.methods
+            .getContractBalance()
+            .call()
+        document.querySelector("#totalFunds").textContent = `Total Funds: ${shares} cUSD`
+            
+  }catch(error){
+    notification(error)
+  }
+}
+
+
+
+
+

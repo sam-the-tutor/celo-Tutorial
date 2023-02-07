@@ -39,6 +39,14 @@
           object-fit: cover;
         }
       }
+
+      .sharesDiv{
+        margin: auto;
+        background-color: red;
+
+         
+        }
+
     </style>
 
       <title>E-Shares</title>
@@ -61,7 +69,33 @@
     <span id="notification">⌛ Loading...</span>
   </div>
   
-      <main id="vault" class="row" style="margin-top: 3.5%;"></main>
+      <main id="vault" class="row" style="margin-top: 3.5%;">
+
+
+<div class="sharesDiv">
+
+  <div >
+   <input type="number" class="form-control" id="sharesAmount"  placeholder="Enter amount to buy">
+  </div> 
+ <a href="#" class="btn btn-primary" id="buyShares" role="submit">BUY</a>
+
+  
+
+  <div>
+    <input type="number" class="form-control" id="sellAmount" placeholder="enter amounbt of shares to sell">
+  </div>
+  <button class="btn btn-primary" id="sellShares">SELL</button>
+ 
+
+
+  <div>
+    <a href="#" class="btn btn-primary subBtn" amount="3" role="submit" id="getShares">get shares</a>
+   <span id="allShares"></span>
+  </div>
+
+</div>
+        
+      </main>
     </div>
 
 
