@@ -284,7 +284,7 @@ mkbdnfelcpgckmpcaemjcdh?hl=en)
 4. Follow the celo development 101 course on dacade for a guide on how to deploy your smart contract.
 
 After deployment, we will need two things; the `ABI` of the contract, and the `contract address`.
-[more about ABIs(Application Binary Interface ]
+[more about ABIs(Application Binary Interface)]
 (https://docs.soliditylang.org/en/develop/abi-spec.html).
 
 
