@@ -29,7 +29,7 @@ Remix IDE is an online compiler that allows us to write, run and test our smart 
 
 celoExtensionWallet enables us to interact with our smart contract on the Celo blockchain.([Learn more on Celo Blockchain](https://celo.org/))
 
-At the end of this tutorial, you will build something similar to [this](https://sam-the-tutor.github.io/celo-Tutorial)
+At the end of this tutorial, you should have a project similar to [this](https://sam-the-tutor.github.io/celo-Tutorial).
 All the code for this project can be found on my [github](https://github.com/sam-the-tutor/celo-Tutorial).
 
 
