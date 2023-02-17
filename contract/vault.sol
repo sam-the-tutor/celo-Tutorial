@@ -48,17 +48,15 @@ contract Vault {
     _mint(msg.sender,shares);
    }
 
-    function withdraw(uint _shares) external{
+    function withdraw(uint _shares) external payable{
 
         require(balanceOf[msg.sender] >= _shares,"You dont have enough shares");
-
+        _burn(msg.sender, _shares);
         require(IERC20Token(token).transfer(
             payable(msg.sender),
             (_shares * DECIMALS)
             ),"Transfer failed"
         );
-
-       _burn(msg.sender, _shares);
 
     }
 
