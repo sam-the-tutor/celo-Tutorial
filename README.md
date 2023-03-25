@@ -2,7 +2,8 @@
 
 ## Introduction
 
-Have you ever wondered how people in real life are able to buy shares from a company they are interested in? Well, in this tutorial, we are going to create a vault smart contract Dapp on the Celo blockchain that will enable users to buy and sell shares in our company. Without wasting time, let's begin.
+Have you ever wondered how people in real life are able to buy shares from a company they are interested in? Well, in this tutorial, we are going to create a vault smart contract Dapp on the Celo blockchain that will enable users to buy and sell shares in our company. Without wasting time,
+By the end of this tutorial, your project should look like this.![Dapp](https://github.com/sam-the-tutor/celo-Tutorial/blob/main/page.png)  lets begin.
 
 ## Table of contents
   * [Introduction](#introduction)
@@ -729,4 +730,4 @@ See you soon!!!!!!
 
 
 ## Author
-I am Samuel Atwebembeire, a back-end and smart-contract developer.I also do technical writing. I am very passionate about Web3 and AI. Let's connect on [twitter](https://twitter.com/samthetutor2)
+Sam-the-tutor is a back-end and smart-contract developer,technical writer. He is very passionate about Web3 and AI. Let's connect on [twitter](https://twitter.com/samthetutor2)
